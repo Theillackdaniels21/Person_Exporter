@@ -32,21 +32,33 @@ namespace Ucu.Poo.PersonExporter
             Console.WriteLine("Seleccione el formato de reporte:");
             Console.WriteLine("1 - HTML");
             Console.WriteLine("2 - PDF");
+            Console.WriteLine("3 - MARKDOWN");
+            Console.WriteLine("4 - CSV");
             Console.Write("Opción: ");
 
             string option = Console.ReadLine();
-            string format;
+            ReportExporter exporter;
             string outputPath;
 
             if (option == "1")
             {
-                format = "HTML";
+                exporter = new ExportHTML();
                 outputPath = "persons-report.html";
             }
             else if (option == "2")
             {
-                format = "PDF";
+                exporter = new ExportPDF();
                 outputPath = "persons-report.pdf";
+            }
+            else if (option == "3")
+            {
+                exporter = new ExportMarkDown();
+                outputPath = "persons-report.md";
+            }
+            else if (option == "4")
+            {
+                exporter = new ExportCSV();
+                outputPath = "persons-report.csv";
             }
             else
             {
@@ -54,7 +66,7 @@ namespace Ucu.Poo.PersonExporter
                 return;
             }
 
-            bool result = generator.GenerateReport(people, format, outputPath);
+            bool result = generator.GenerateReport(people, exporter, outputPath);
 
             if (result)
             {
